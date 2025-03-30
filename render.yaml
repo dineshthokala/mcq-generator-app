@@ -1,0 +1,14 @@
+services:
+  - name: mcq-generator-backend
+    type: web
+    runtime: python
+    buildCommand: |
+      pip install -r backend/requirements.txt
+      python -m nltk.downloader punkt stopwords wordnet
+    startCommand: gunicorn backend.app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: NLTK_DATA
+        value: ./backend/nltk_data
+    plan: free
