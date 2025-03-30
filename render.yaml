@@ -5,10 +5,9 @@ services:
     buildCommand: |
       pip install -r backend/requirements.txt
       python -m nltk.downloader punkt stopwords wordnet
-    startCommand: gunicorn backend.app:app
+      pip install gevent  # Required for worker class
+    startCommand: gunicorn --worker-class=gevent --workers=1 --timeout 120 backend.app:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.16
-      - key: NLTK_DATA
-        value: ./backend/nltk_data
     plan: free
